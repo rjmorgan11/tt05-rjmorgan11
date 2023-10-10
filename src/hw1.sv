@@ -3,17 +3,18 @@
 module tt_um_rjmorgan11_calculator_chip #( parameter MAX_COUNT = 24'd10_000_000 )(
     input  wire [7:0] ui_in,    // Dedicated inputs
     output wire [7:0] uo_out,   // Dedicated outputs
-    //input  wire [7:0] uio_in,   // IOs: Input path
-    //output wire [7:0] uio_out,  // IOs: Output path
-    //output wire [7:0] uio_oe,   // IOs: Enable path (active high: 0=input, 1=output)
-    //input  wire       ena,      // will go high when the design is enabled
+    input  wire [7:0] uio_in,   // IOs: Input path
+    output wire [7:0] uio_out,  // IOs: Output path
+    output wire [7:0] uio_oe,   // IOs: Enable path (active high: 0=input, 1=output)
+    input  wire       ena,      // will go high when the design is enabled
     input  wire       clk,      // clock
     input  wire       rst_n     // reset_n - low to reset
 );
 // Wouldn't the buttons be active low on a real design?
     logic [7:0] state;
-    assign uo_out = state;
-
+    assign uo_out = (ena) ? state : 8'h00;
+    assign uio_out = (uio_oe) ui_in : uo_out;
+    
 
   always_ff @(posedge clk, posedge rst_n) begin
         if (rst_n) begin
