@@ -1,4 +1,4 @@
-`default_nettype none
+//`default_nettype none
 
 module tt_um_rjmorgan11_calculator_chip #( parameter MAX_COUNT = 24'd10_000_000 )(
     input  wire [7:0] ui_in,    // Dedicated inputs
