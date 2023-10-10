@@ -13,7 +13,8 @@ module tt_um_rjmorgan11_calculator_chip #( parameter MAX_COUNT = 24'd10_000_000 
 // Wouldn't the buttons be active low on a real design?
     logic [7:0] state;
     assign uo_out = (ena) ? state : 8'h00;
-    assign uio_out = (uio_oe) ui_in : uo_out;
+    assign uio_out = ui_in;
+    assign uio_oe = 8'hff;
     
 
   always_ff @(posedge clk, posedge rst_n) begin
