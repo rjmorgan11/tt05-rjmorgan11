@@ -13,8 +13,9 @@ module tt_um_rjmorgan11_calculator_chip #( parameter MAX_COUNT = 24'd10_000_000 
     logic [7:0] state, last_state, tmp;
     logic [2:0] flags;
     logic overflow, neg, zero;
-    assign uo_out = state;
+    assign uo_out = (ena) ? state : 8'h00;
     assign uio_out[7:5] = flags;
+    assign uio_out[4:0] = 0;
     assign uio_oe = 8'hE0;
     assign flags = {overflow, neg, zero};
 
