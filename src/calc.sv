@@ -12,7 +12,7 @@ module tt_um_rjmorgan11_calculator_chip #( parameter MAX_COUNT = 24'd10_000_000 
 );
     logic [7:0] state, last_state, tmp;
     logic [2:0] flags;
-    logic overflow, neg, zero;
+    logic overflow, neg, zero, enabled_once;
     assign uo_out = (ena) ? state : 8'h00;
     assign uio_out[7:5] = flags;
     assign uio_out[4:0] = 0;
@@ -25,9 +25,11 @@ module tt_um_rjmorgan11_calculator_chip #( parameter MAX_COUNT = 24'd10_000_000 
             overflow <= 0;
             neg <= 0;
             zero <= 0;
+            enabled_once <= 0;
     
         end
-        else if (uio_in[0]) begin
+        else if (uio_in[0] && enabled_once != 1) begin
+            enabled_once <= 1;
             last_state <= state;
             overflow <= 0;
             neg <= 0;
@@ -110,6 +112,9 @@ module tt_um_rjmorgan11_calculator_chip #( parameter MAX_COUNT = 24'd10_000_000 
                     zero <= state == ui_in;
                 end
             endcase
+        end
+        else if (!uio_in[0]) begin
+            enabled_once <= 0;
         end
     end
     endmodule: tt_um_rjmorgan11_calculator_chip
