@@ -28,11 +28,7 @@ module calc_tb;
         @(posedge clk);
         uio_in[0] <= 1;
         @(posedge clk);
-        @(posedge clk);
-        @(posedge clk);
-        @(posedge clk);
-        @(posedge clk);
-        
+
         uio_in[0] <= 0;
         @(posedge clk);
     endtask: send_add
